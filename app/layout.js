@@ -2,6 +2,7 @@ import "@/app/ui/global.css";
 import { inter } from "@/app/ui/fonts";
 import NavBar from "@/app/ui/navbar/navbar";
 import Footer from "@/app/ui/footer/footer";
+import { Providers } from "@/app/providers";
 
 export const metadata = {
   title: "Carbon Footprint Tracker",
@@ -10,12 +11,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <body className={`${inter.className} antialiased`}>
-        <NavBar />
-        {children}
-        <Footer />
-
+        <Providers>
+          <NavBar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
