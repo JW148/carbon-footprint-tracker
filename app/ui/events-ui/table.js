@@ -52,9 +52,21 @@ const columns = [
 export default function EventsTable(events) {
   console.log(events);
 
-  events.forEach((element) => {
-    console.log(element);
+  const rows = events.events.map((event) => {
+    return {
+      date: event.date,
+      run: event.run,
+      area: event.area,
+      near: event.near,
+      nearest_pc: event.nearest_pc,
+      w3w: event.w3w,
+      gr: event.gr,
+      length: event.length,
+      climb: event.climb,
+    };
   });
+
+  console.log(rows);
 
   return (
     <Table aria-label="Events table">
