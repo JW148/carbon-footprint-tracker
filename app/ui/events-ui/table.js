@@ -8,10 +8,15 @@ import {
   TableRow,
   TableCell,
   getKeyValue,
+  Tooltip,
+  Button,
 } from "@nextui-org/react";
 
 import EventDetailsModal from "@/app/ui/events-ui/eventDetailsModal";
 import { useState } from "react";
+
+import { FaRegEdit } from "react-icons/fa";
+import { MdOutlineDelete } from "react-icons/md";
 
 const columns = [
   {
@@ -50,10 +55,13 @@ const columns = [
     key: "climb",
     label: "CLIMB",
   },
+  {
+    key: "actions",
+    label: "ACTIONS",
+  },
 ];
 
 export default function EventsTable(events) {
-
   const rows = events.events.map((event) => {
     return {
       date: event.date,
@@ -68,6 +76,31 @@ export default function EventsTable(events) {
     };
   });
 
+  const renderCell = (item, columnKey) => {
+    if (columnKey === "actions") {
+      return (
+        <div className="relative flex items-center gap-2">
+          <Tooltip content="Edit Event">
+            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+              <Button isIconOnly className="bg-transparent">
+                <FaRegEdit />
+              </Button>
+            </span>
+          </Tooltip>
+          <Tooltip color="danger" content="Delete event">
+            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+              <Button isIconOnly className="bg-transparent">
+                <MdOutlineDelete />
+              </Button>
+            </span>
+          </Tooltip>
+        </div>
+      );
+    } else {
+      return getKeyValue(item, columnKey);
+    }
+  };
+
   // states for the modal and its data
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -81,27 +114,26 @@ export default function EventsTable(events) {
 
   return (
     <>
-      <Table aria-label="Events table">
+      <Table aria-label="Events table" selectionMode="single">
         <TableHeader columns={columns}>
-          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+          {(column) => (
+            <TableColumn key={column.key}>{column.label}</TableColumn>
+          )}
         </TableHeader>
         <TableBody items={rows}>
           {(item) => (
-            <TableRow 
-              key={item.date}
-              onClick={() => handleRowClick(item)}
-            >
+            <TableRow key={item.date} onClick={() => handleRowClick(item)}>
               {(columnKey) => (
-                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
             </TableRow>
           )}
         </TableBody>
       </Table>
 
-      <EventDetailsModal 
-        isOpen={isModalOpen} 
-        onOpenChange={setIsModalOpen} 
+      <EventDetailsModal
+        isOpen={isModalOpen}
+        onOpenChange={setIsModalOpen}
         eventData={selectedEvent}
       />
     </>
