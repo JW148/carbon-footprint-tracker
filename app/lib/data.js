@@ -6,6 +6,8 @@ export async function fetchEvents() {
   noStore();
   try {
     console.log("Fetching events data...");
+    //REMOVE FOR PRODUCTION: artificially delaying the response to demo the loading state skeleton
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     const data = await sql`SELECT * FROM events`;
     console.log("Data fetch completed.");
     return data.rows;

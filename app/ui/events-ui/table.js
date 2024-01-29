@@ -50,8 +50,6 @@ const columns = [
 ];
 
 export default function EventsTable(events) {
-  console.log(events);
-
   const rows = events.events.map((event) => {
     return {
       date: event.date,
@@ -69,7 +67,7 @@ export default function EventsTable(events) {
   console.log(rows);
 
   return (
-    <Table aria-label="Events table">
+    <Table isStriped aria-label="Events table">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
       </TableHeader>
