@@ -10,6 +10,9 @@ import {
   getKeyValue,
 } from "@nextui-org/react";
 
+import EventDetailsModal from "@/app/ui/events-ui/eventDetailsModal";
+import { useState } from "react";
+
 const columns = [
   {
     key: "date",
@@ -50,6 +53,7 @@ const columns = [
 ];
 
 export default function EventsTable(events) {
+
   const rows = events.events.map((event) => {
     return {
       date: event.date,
@@ -64,22 +68,42 @@ export default function EventsTable(events) {
     };
   });
 
-  console.log(rows);
+  // states for the modal and its data
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  // Function to handle row click
+  // Open the modal and pass the data from that row into the modal
+  const handleRowClick = (eventData) => {
+    setSelectedEvent(eventData);
+    setIsModalOpen(true);
+  };
 
   return (
-    <Table isStriped aria-label="Events table">
-      <TableHeader columns={columns}>
-        {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
-      </TableHeader>
-      <TableBody items={rows}>
-        {(item) => (
-          <TableRow key={item.date}>
-            {(columnKey) => (
-              <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-            )}
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <>
+      <Table aria-label="Events table">
+        <TableHeader columns={columns}>
+          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+        </TableHeader>
+        <TableBody items={rows}>
+          {(item) => (
+            <TableRow 
+              key={item.date}
+              onClick={() => handleRowClick(item)}
+            >
+              {(columnKey) => (
+                <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <EventDetailsModal 
+        isOpen={isModalOpen} 
+        onOpenChange={setIsModalOpen} 
+        eventData={selectedEvent}
+      />
+    </>
   );
 }
