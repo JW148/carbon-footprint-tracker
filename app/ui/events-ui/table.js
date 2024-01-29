@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 
 import EventDetailsModal from "@/app/ui/events-ui/eventDetailsModal";
+import EditEventModal from "@/app/ui/events-ui/editEventModal";
 import { useState } from "react";
 
 import { FaRegEdit } from "react-icons/fa";
@@ -82,7 +83,7 @@ export default function EventsTable(events) {
         <div className="relative flex items-center gap-2">
           <Tooltip content="Edit Event">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-              <Button isIconOnly className="bg-transparent">
+              <Button isIconOnly className="bg-transparent" onClick={() => handleButtonClick(item)}>
                 <FaRegEdit />
               </Button>
             </span>
@@ -103,6 +104,7 @@ export default function EventsTable(events) {
 
   // states for the modal and its data
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   // Function to handle row click
@@ -111,6 +113,13 @@ export default function EventsTable(events) {
     setSelectedEvent(eventData);
     setIsModalOpen(true);
   };
+
+  // Function to handle edit button click
+  // Open the modal and pass the data from that row into the modal
+  const handleButtonClick = (eventData) => {
+      setSelectedEvent(eventData);
+      setIsEditModalOpen(true);
+  }
 
   return (
     <>
@@ -135,6 +144,12 @@ export default function EventsTable(events) {
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
         eventData={selectedEvent}
+      />
+
+      <EditEventModal 
+        isOpen={isEditModalOpen} 
+        onOpenChange={setIsEditModalOpen} 
+        eventData={selectedEvent} 
       />
     </>
   );
