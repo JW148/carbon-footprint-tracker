@@ -27,3 +27,13 @@ export async function createEvent(formData) {
   revalidatePath("/events"); //clears the cache and triggers a new request to the server
   redirect("/events");
 }
+
+export async function deleteEvent(id) {
+  try {
+    await sql`DELETE FROM events WHERE id = ${id}`;
+  } catch (err) {
+    console.log("Database error: " + err);
+  }
+
+  revalidatePath("/events");
+}

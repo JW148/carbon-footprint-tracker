@@ -122,6 +122,50 @@ const events = [
   },
 ];
 
+const columns = [
+  {
+    key: "date",
+    label: "DATE",
+  },
+  {
+    key: "run",
+    label: "RUN",
+  },
+  {
+    key: "area",
+    label: "AREA",
+  },
+  {
+    key: "near",
+    label: "NEAR",
+  },
+  {
+    key: "nearest_pc",
+    label: "NEAREST POSTCODE",
+  },
+  {
+    key: "w3w",
+    label: "W3W",
+  },
+  {
+    key: "gr",
+    label: "GR",
+  },
+  {
+    key: "length",
+    label: "LENGTH",
+  },
+  {
+    key: "climb",
+    label: "CLIMB",
+  },
+  {
+    key: "actions",
+    label: "ACTIONS",
+  },
+];
+
 module.exports = {
   events,
+  columns,
 };

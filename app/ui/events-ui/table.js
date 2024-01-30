@@ -19,52 +19,13 @@ import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 
-const columns = [
-  {
-    key: "date",
-    label: "DATE",
-  },
-  {
-    key: "run",
-    label: "RUN",
-  },
-  {
-    key: "area",
-    label: "AREA",
-  },
-  {
-    key: "near",
-    label: "NEAR",
-  },
-  {
-    key: "nearest_pc",
-    label: "NEAREST POSTCODE",
-  },
-  {
-    key: "w3w",
-    label: "W3W",
-  },
-  {
-    key: "gr",
-    label: "GR",
-  },
-  {
-    key: "length",
-    label: "LENGTH",
-  },
-  {
-    key: "climb",
-    label: "CLIMB",
-  },
-  {
-    key: "actions",
-    label: "ACTIONS",
-  },
-];
+import { columns } from "@/app/lib/placeholder-data";
+import { DeleteEvent } from "@/app/ui/events-ui/buttons";
 
 export default function EventsTable(events) {
   const rows = events.events.map((event) => {
     return {
+      key: event.id,
       date: event.date,
       run: event.run,
       area: event.area,
@@ -83,18 +44,16 @@ export default function EventsTable(events) {
         <div className="relative flex items-center gap-2">
           <Tooltip content="Edit Event">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-              <Button isIconOnly className="bg-transparent" onClick={() => handleButtonClick(item)}>
+              <Button
+                isIconOnly
+                className="bg-transparent"
+                onClick={() => handleButtonClick(item)}
+              >
                 <FaRegEdit />
               </Button>
             </span>
           </Tooltip>
-          <Tooltip color="danger" content="Delete event">
-            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-              <Button isIconOnly className="bg-transparent">
-                <MdOutlineDelete />
-              </Button>
-            </span>
-          </Tooltip>
+          <DeleteEvent id={item.key} />
         </div>
       );
     } else {
@@ -117,9 +76,10 @@ export default function EventsTable(events) {
   // Function to handle edit button click
   // Open the modal and pass the data from that row into the modal
   const handleButtonClick = (eventData) => {
-      setSelectedEvent(eventData);
-      setIsEditModalOpen(true);
-  }
+    setSelectedEvent(eventData);
+    setIsEditModalOpen(true);
+    console.log(eventData.key);
+  };
 
   return (
     <>
@@ -131,7 +91,7 @@ export default function EventsTable(events) {
         </TableHeader>
         <TableBody items={rows}>
           {(item) => (
-            <TableRow key={item.date} onClick={() => handleRowClick(item)}>
+            <TableRow key={item.key} onClick={() => handleRowClick(item)}>
               {(columnKey) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
@@ -146,10 +106,10 @@ export default function EventsTable(events) {
         eventData={selectedEvent}
       />
 
-      <EditEventModal 
-        isOpen={isEditModalOpen} 
-        onOpenChange={setIsEditModalOpen} 
-        eventData={selectedEvent} 
+      <EditEventModal
+        isOpen={isEditModalOpen}
+        onOpenChange={setIsEditModalOpen}
+        eventData={selectedEvent}
       />
     </>
   );
