@@ -3,7 +3,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { Spinner } from "@nextui-org/react";
 
-import { deleteEvent } from "@/app/lib/actions";
+import { deleteEvent, editEvent } from "@/app/lib/actions";
 import { useFormStatus } from "react-dom";
 
 export function DeleteEvent(id) {
@@ -37,3 +37,7 @@ function DeleteBtn() {
     </>
   );
 }
+
+export function AddEvent(item) {}
+
+function AddBtn() {}

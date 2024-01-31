@@ -37,3 +37,21 @@ export async function deleteEvent(id) {
 
   revalidatePath("/events");
 }
+
+export async function editEvent(formData) {
+  const rawFormData = Object.fromEntries(formData.entries());
+  console.log(rawFormData);
+  console.log("Inserting event");
+  try {
+    await sql`
+    UPDATE events
+    SET date = ${rawFormData.date}, run = ${rawFormData.run}, area = ${rawFormData.area}, near = ${rawFormData.near}, nearest_pc =  ${rawFormData.nearest_pc}, w3w = ${rawFormData.w3w}, gr = ${rawFormData.gr}, length = ${rawFormData.length}, climb = ${rawFormData.climb}
+    WHERE id = ${rawFormData.id}
+    `;
+    console.log("Event updated successfully");
+  } catch (err) {
+    console.log("Database Error: " + err);
+  }
+
+  revalidatePath("/events");
+}

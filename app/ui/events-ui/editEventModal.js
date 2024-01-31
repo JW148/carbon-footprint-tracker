@@ -14,19 +14,21 @@ import {
 import { Select, SelectItem } from "@nextui-org/react";
 import { selectOptions } from "@/scripts/selectData";
 import { useEffect, useState } from "react";
+import { editEvent } from "@/app/lib/actions";
 
-export default function EditEventModal({ isOpen, onOpenChange, eventData}) {
+export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
   // Create a state for each input field
   const [formData, setFormData] = useState({
-    date: '',
-    run: '',
-    area: '',
-    near: '',
-    nearest_pc: '',
-    w3w: '',
-    gr: '',
-    length: '',
-    climb: '',
+    id: "",
+    date: "",
+    run: "",
+    area: "",
+    near: "",
+    nearest_pc: "",
+    w3w: "",
+    gr: "",
+    length: "",
+    climb: "",
   });
 
   // Update state when eventData changes
@@ -34,15 +36,16 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData}) {
     if (eventData) {
       setFormData({
         ...formData,
-        date: eventData.date || '',
-        run: eventData.run || '',
-        area: eventData.area || '',
-        near: eventData.near || '',
-        nearest_pc: eventData.nearest_pc || '',
-        w3w: eventData.w3w || '',
-        gr: eventData.gr || '',
-        length: eventData.length || '',
-        climb: eventData.climb || '',
+        id: eventData.key || "",
+        date: eventData.date || "",
+        run: eventData.run || "",
+        area: eventData.area || "",
+        near: eventData.near || "",
+        nearest_pc: eventData.nearest_pc || "",
+        w3w: eventData.w3w || "",
+        gr: eventData.gr || "",
+        length: eventData.length || "",
+        climb: eventData.climb || "",
       });
     }
   }, [eventData]);
@@ -62,12 +65,21 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData}) {
         <ModalContent>
           {(onClose) => (
             // CREATE EDIT EVENT SQL QUERY FOR FORM SUBMISSION
-            <form>
+            <form action={editEvent}>
               <>
                 <ModalHeader className="flex flex-col gap-4">
                   Edit your Event
                 </ModalHeader>
                 <ModalBody>
+                  <Input
+                    name="id"
+                    label="ID"
+                    labelPlacement="outside"
+                    value={formData.id}
+                    variant="faded"
+                    isClearable={false}
+                  />
+
                   <Input
                     autoFocus
                     name="date"
@@ -99,7 +111,12 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData}) {
                     variant="bordered"
                   />
 
-                  <Select label="Select Near" name="near" selectedKeys={[formData.near]} onChange={handleInputChange}>
+                  <Select
+                    label="Select Near"
+                    name="near"
+                    selectedKeys={[formData.near]}
+                    onChange={handleInputChange}
+                  >
                     {selectOptions.map((selectOption) => (
                       <SelectItem
                         key={selectOption.value}

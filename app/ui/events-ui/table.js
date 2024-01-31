@@ -78,7 +78,6 @@ export default function EventsTable(events) {
   const handleButtonClick = (eventData) => {
     setSelectedEvent(eventData);
     setIsEditModalOpen(true);
-    console.log(eventData.key);
   };
 
   return (
