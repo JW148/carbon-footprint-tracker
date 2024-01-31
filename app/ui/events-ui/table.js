@@ -20,7 +20,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 
 import { columns } from "@/app/lib/placeholder-data";
-import { DeleteEvent } from "@/app/ui/events-ui/buttons";
+import { DeleteEvent, AddEmissions } from "@/app/ui/events-ui/buttons";
+import { useFormStatus } from "react-dom";
 
 export default function EventsTable(events) {
   const rows = events.events.map((event) => {
@@ -41,7 +42,8 @@ export default function EventsTable(events) {
   const renderCell = (item, columnKey) => {
     if (columnKey === "actions") {
       return (
-        <div className="relative flex items-center gap-2">
+        <div className="relative flex items-center">
+          <AddEmissions />
           <Tooltip content="Edit Event">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
               <Button
@@ -49,7 +51,7 @@ export default function EventsTable(events) {
                 className="bg-transparent"
                 onClick={() => handleButtonClick(item)}
               >
-                <FaRegEdit />
+                <FaRegEdit size="1.5em" />
               </Button>
             </span>
           </Tooltip>
@@ -79,6 +81,8 @@ export default function EventsTable(events) {
     setSelectedEvent(eventData);
     setIsEditModalOpen(true);
   };
+
+  const status = useFormStatus();
 
   return (
     <>

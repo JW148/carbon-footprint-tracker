@@ -1,6 +1,7 @@
 import { Tooltip, Button } from "@nextui-org/react";
 import { FaRegEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
+import { IoAddCircleOutline } from "react-icons/io5";
 import { Spinner } from "@nextui-org/react";
 
 import { deleteEvent, editEvent } from "@/app/lib/actions";
@@ -24,12 +25,12 @@ function DeleteBtn() {
   return (
     <>
       {status.pending ? (
-        <Spinner />
+        <Spinner size="sm" />
       ) : (
         <Tooltip color="danger" content="Delete event">
           <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
             <Button isIconOnly className="bg-transparent" type="submit">
-              <MdOutlineDelete />
+              <MdOutlineDelete size="1.5em" color="red" />
             </Button>
           </span>
         </Tooltip>
@@ -38,6 +39,22 @@ function DeleteBtn() {
   );
 }
 
-export function AddEvent(item) {}
+export function AddEmissions() {
+  return (
+    <form>
+      <EmissionsBtn />
+    </form>
+  );
+}
 
-function AddBtn() {}
+function EmissionsBtn() {
+  return (
+    <Tooltip content="Add Emission Data" color="success">
+      <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+        <Button isIconOnly className="bg-transparent" color="success">
+          <IoAddCircleOutline color="green" size="1.5em" />
+        </Button>
+      </span>
+    </Tooltip>
+  );
+}

@@ -38,10 +38,30 @@ export async function deleteEvent(id) {
   revalidatePath("/events");
 }
 
-export async function editEvent(formData) {
+const FormDataSchema = z.object({
+  id: z.string().min(1, "ID not provided"),
+  date: z.string().min(1, "Date is required."),
+  run: z.string().min(1, "Run is required."),
+  area: z.string().min(1, "Area is required."),
+  near: z.string().min(1, "Near is required."),
+  nearest_pc: z.string().min(1, "Nearest Post Code is required."),
+  w3w: z.string().min(1, "W3W is required."),
+  gr: z.string().min(1, "GR is required"),
+  length: z.string().min(1, "Length is required."),
+  climb: z.string().min(1, "Climb is required."),
+});
+
+export async function editEvent(state, formData) {
   const rawFormData = Object.fromEntries(formData.entries());
+  const result = FormDataSchema.safeParse(rawFormData);
+
+  if (result.success) {
+    return { data: result.data };
+  }
+
   console.log(rawFormData);
   console.log("Inserting event");
+
   try {
     await sql`
     UPDATE events
@@ -51,6 +71,10 @@ export async function editEvent(formData) {
     console.log("Event updated successfully");
   } catch (err) {
     console.log("Database Error: " + err);
+  }
+
+  if (result.error) {
+    return { error: result.error.format() };
   }
 
   revalidatePath("/events");

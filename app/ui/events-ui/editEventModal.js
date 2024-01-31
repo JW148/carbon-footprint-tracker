@@ -15,6 +15,7 @@ import { Select, SelectItem } from "@nextui-org/react";
 import { selectOptions } from "@/scripts/selectData";
 import { useEffect, useState } from "react";
 import { editEvent } from "@/app/lib/actions";
+import { useFormState } from "react-dom";
 
 export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
   // Create a state for each input field
@@ -59,13 +60,16 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
     }));
   };
 
+  const [state, formAction] = useFormState(editEvent, null);
+  console.log(state);
+
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose) => (
             // CREATE EDIT EVENT SQL QUERY FOR FORM SUBMISSION
-            <form action={editEvent}>
+            <form action={formAction}>
               <>
                 <ModalHeader className="flex flex-col gap-4">
                   Edit your Event
