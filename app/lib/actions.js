@@ -79,3 +79,12 @@ export async function editEvent(state, formData) {
 
   revalidatePath("/events");
 }
+
+
+
+//CREATE CARBON EVENT TO ADD THE CARBON FOOTPRINT TRACKER DATA
+export async function carbonEvent(formData){
+
+
+  
+}
