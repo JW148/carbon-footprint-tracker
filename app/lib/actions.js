@@ -105,3 +105,12 @@ export async function authenticate(state, formData) {
     throw err;
   }
 }
+
+
+
+//CREATE CARBON EVENT TO ADD THE CARBON FOOTPRINT TRACKER DATA
+export async function carbonEvent(formData){
+
+
+  
+}

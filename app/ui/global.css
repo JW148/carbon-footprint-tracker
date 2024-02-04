@@ -30,6 +30,16 @@
 }
 
 
+/* Embed Height CSS3 */
+
+.embedContainerHeight{
+  height: 800px;
+}
+
+
+
+
+
 
 
 
@@ -54,6 +64,11 @@
 
 
 /* Stats page css tailwind */
+
+
+.embedContainer{
+  @apply w-3/4 border-4 rounded-lg border-rose-600;
+}
 
 
 

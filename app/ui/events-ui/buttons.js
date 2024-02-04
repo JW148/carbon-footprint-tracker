@@ -39,19 +39,19 @@ function DeleteBtn() {
   );
 }
 
-export function AddEmissions() {
+export function AddEmissions({ onClick }) {
   return (
     <form>
-      <EmissionsBtn />
+      <EmissionsBtn onClick={onClick}/>
     </form>
   );
 }
 
-function EmissionsBtn() {
+function EmissionsBtn({ onClick }) {
   return (
     <Tooltip content="Add Emission Data" color="success">
       <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-        <Button isIconOnly className="bg-transparent" color="success">
+        <Button isIconOnly className="bg-transparent" color="success" onClick={onClick}>
           <IoAddCircleOutline color="green" size="1.5em" />
         </Button>
       </span>

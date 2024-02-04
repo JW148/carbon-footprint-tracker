@@ -9,6 +9,7 @@ export default function Home() {
             src="https://runmdc.org.uk/wp-content/uploads/2016/11/20150919-IMG_7124sm-e1479912560949.jpeg"
             width={1995}
             height={665}
+            alt="Landing Page Image"
           />
 
         </div>
@@ -27,9 +28,6 @@ export default function Home() {
           </p>
         </article>
       </main>
-
     </>
-
-    
   );
 }

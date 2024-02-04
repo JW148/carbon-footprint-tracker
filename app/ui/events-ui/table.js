@@ -14,6 +14,8 @@ import {
 
 import EventDetailsModal from "@/app/ui/events-ui/eventDetailsModal";
 import EditEventModal from "@/app/ui/events-ui/editEventModal";
+import CarbonEmissionModal from "@/app/ui/events-ui/carbonEmissionModal";
+
 import { useState } from "react";
 
 import { FaRegEdit } from "react-icons/fa";
@@ -43,7 +45,10 @@ export default function EventsTable(events) {
     if (columnKey === "actions") {
       return (
         <div className="relative flex items-center">
-          <AddEmissions />
+          <AddEmissions 
+            onClick={() => handleEmissionsClick(item)}
+          />
+          
           <Tooltip content="Edit Event">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
               <Button
@@ -66,6 +71,8 @@ export default function EventsTable(events) {
   // states for the modal and its data
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isEmissionModalOpen, setIsEmissionModalOpen] = useState(false);
+
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   // Function to handle row click
@@ -81,6 +88,12 @@ export default function EventsTable(events) {
     setSelectedEvent(eventData);
     setIsEditModalOpen(true);
   };
+
+  const handleEmissionsClick = (eventData) => {
+    setSelectedEvent(eventData);
+    setIsEmissionModalOpen(true);
+  }
+
 
   const status = useFormStatus();
 
@@ -112,6 +125,12 @@ export default function EventsTable(events) {
       <EditEventModal
         isOpen={isEditModalOpen}
         onOpenChange={setIsEditModalOpen}
+        eventData={selectedEvent}
+      />
+
+      <CarbonEmissionModal 
+        isOpen={isEmissionModalOpen}
+        onOpenChange={setIsEmissionModalOpen}
         eventData={selectedEvent}
       />
     </>
