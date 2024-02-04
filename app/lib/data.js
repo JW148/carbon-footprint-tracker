@@ -16,3 +16,17 @@ export async function fetchEvents() {
     throw new Error("Failed to fetch events data.");
   }
 }
+
+//CHANGE IMPLEMENTATION TO RETURN A MAP
+export async function fetchEmissions() {
+  noStore();
+  try {
+    console.log("Fetchgin emissions data...");
+    const data = await sql`SELECT * FROM emissions`;
+    console.log("Data fetch complete.");
+    return data.rows;
+  } catch (err) {
+    console.log("Database error: ", err);
+    throw new Error("Failed to fetch emissions data.");
+  }
+}

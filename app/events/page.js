@@ -1,9 +1,11 @@
-import { fetchEvents } from "@/app/lib/data";
+import { fetchEvents, fetchEmissions } from "@/app/lib/data";
 import EventsTable from "@/app/ui/events-ui/table";
 import AddEventModal from "@/app/ui/events-ui/addEventModal";
 
 export default async function Page() {
   const events = await fetchEvents();
+  const emissions = await fetchEmissions();
+  console.log(emissions);
   return (
     <section className="flex min-h-screen flex-col items-center justify-between px-24 pt-10">
       <main className="flex flex-col items-center justify-between px-24 pt-8 pb-4">
