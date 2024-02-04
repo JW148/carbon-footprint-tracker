@@ -165,7 +165,10 @@ const columns = [
   },
 ];
 
+const users = [];
+
 module.exports = {
   events,
   columns,
+  users,
 };

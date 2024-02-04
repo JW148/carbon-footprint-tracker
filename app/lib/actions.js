@@ -55,11 +55,12 @@ export async function editEvent(state, formData) {
   const rawFormData = Object.fromEntries(formData.entries());
   const result = FormDataSchema.safeParse(rawFormData);
 
-  if (result.success) {
-    return { data: result.data };
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+      message: "Failed",
+    };
   }
-
-  console.log(rawFormData);
   console.log("Inserting event");
 
   try {
@@ -70,12 +71,37 @@ export async function editEvent(state, formData) {
     `;
     console.log("Event updated successfully");
   } catch (err) {
-    console.log("Database Error: " + err);
+    return {
+      message: "Database Error: Failed to Update Event: " + err,
+    };
   }
-
-  if (result.error) {
-    return { error: result.error.format() };
-  }
-
   revalidatePath("/events");
+
+  if (result.success) {
+    return {
+      data: result.data,
+      message: "Success",
+    };
+  }
+}
+
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
+
+export async function authenticate(state, formData) {
+  try {
+    await signIn("credentials", formData, {
+      redirectTo: "/dashboard",
+    });
+  } catch (err) {
+    if (err instanceof AuthError) {
+      switch (err.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw err;
+  }
 }

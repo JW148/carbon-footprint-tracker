@@ -9,13 +9,14 @@ import {
   Button,
   useDisclosure,
   Input,
+  Spinner,
 } from "@nextui-org/react";
 
 import { Select, SelectItem } from "@nextui-org/react";
 import { selectOptions } from "@/scripts/selectData";
 import { useEffect, useState } from "react";
 import { editEvent } from "@/app/lib/actions";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 
 export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
   // Create a state for each input field
@@ -62,7 +63,6 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
 
   const [state, formAction] = useFormState(editEvent, null);
   console.log(state);
-
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
@@ -192,9 +192,7 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                   />
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="danger" onPress={onClose} type="submit">
-                    Confirm Edit
-                  </Button>
+                  <Submit state={state} />
                 </ModalFooter>
               </>
             </form>
@@ -203,4 +201,38 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
       </Modal>
     </>
   );
+}
+
+function Submit({ state }) {
+  const { pending } = useFormStatus();
+
+  if (pending) {
+    return <Spinner />;
+  }
+  if (!pending) {
+    return (
+      <Button color="danger" type="submit">
+        Submit
+      </Button>
+    );
+  }
+  if (!pending && state === "Success") {
+    return (
+      <Button color="danger" type="submit">
+        Close
+      </Button>
+    );
+  }
+
+  // return (
+  //   <>
+  //     {pending ? (
+  //       <Spinner />
+  //     ) : (
+  //       <Button color="danger" type="submit">
+  //         Submit
+  //       </Button>
+  //     )}
+  //   </>
+  // );
 }
