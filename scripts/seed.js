@@ -1,5 +1,5 @@
 const { db } = require("@vercel/postgres");
-const { events, users } = require("../app/lib/placeholder-data.js");
+const { events, users, emissions } = require("../app/lib/placeholder-data.js");
 const bcrypt = require("bcrypt");
 
 async function seedEvents(client) {
@@ -84,11 +84,52 @@ async function seedUsers(client) {
   }
 }
 
+async function seedEmissions(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    //create the emissions table if it doesn't exist
+    const createTable = await client.sql`
+      CREATE TABLE IF NOT EXISTS emissions (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        event_id UUID NOT NULL,
+        driver_name VARCHAR(255) NOT NULL,
+        miles_to_event INT NOT NULL,
+        passengers INT NOT NULL
+      );
+    `;
+
+    console.log(`Created "emissions" table`);
+
+    //insert data into the emissions table
+    const insertedEmissions = await Promise.all(
+      emissions.map(
+        (emission) => client.sql`
+        INSERT INTO emissions (event_id, driver_name, miles_to_event, passengers)
+        VALUES (${emission.event_id}, ${emission.driver_name}, ${emission.miles_to_event}, ${emission.passengers})
+        ON CONFLICT (id) DO NOTHING;
+      `
+      )
+    );
+
+    console.log(`Seeded ${insertedEmissions.length} emissions`);
+
+    return {
+      createTable,
+      emissions: insertedEmissions,
+    };
+  } catch (err) {
+    console.error("Error seeding emissions: ", err);
+    throw err;
+  }
+}
+
 async function main() {
   const client = await db.connect();
 
   await seedEvents(client);
-  await seedUsers(client);
+  // await seedUsers(client);
+  await seedEmissions(client);
 
   await client.end();
 }

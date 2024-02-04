@@ -90,9 +90,7 @@ import { AuthError } from "next-auth";
 
 export async function authenticate(state, formData) {
   try {
-    await signIn("credentials", formData, {
-      redirectTo: "/dashboard",
-    });
+    await signIn("credentials", formData);
   } catch (err) {
     if (err instanceof AuthError) {
       switch (err.type) {
@@ -106,11 +104,22 @@ export async function authenticate(state, formData) {
   }
 }
 
-
-
 //CREATE CARBON EVENT TO ADD THE CARBON FOOTPRINT TRACKER DATA
-export async function carbonEvent(formData){
+export async function carbonEvent(formData) {
+  const rawFormData = Object.fromEntries(formData.entries());
+  console.log(rawFormData);
+  console.log("Inserting emission data");
 
+  try {
+    await sql`
+    INSERT INTO emissions (event_id, driver_name, miles_to_event, passengers)
+    VALUES (${rawFormData.event_id}, ${rawFormData.name}, ${rawFormData.miles}, ${rawFormData.passengers})
+    `;
+    console.log("Emission data added successfully");
+  } catch (err) {
+    console.log("Database Error: " + err);
+  }
 
-  
+  revalidatePath("/events"); //clears the cache and triggers a new request to the server
+  redirect("/events");
 }

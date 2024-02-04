@@ -165,10 +165,20 @@ const columns = [
   },
 ];
 
+const emissions = [
+  {
+    event_id: "0d2ab2cb-d5aa-42e7-9bb5-b41d004f89ad",
+    driver_name: "John Doe",
+    miles_to_event: 20,
+    passengers: 2,
+  },
+];
+
 const users = [];
 
 module.exports = {
   events,
   columns,
   users,
+  emissions,
 };
