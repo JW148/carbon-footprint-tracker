@@ -24,6 +24,7 @@ export default function SignUpForm() {
   });
 
   useEffect(() => {
+    console.log(state);
     if (state.isSuccess) redirect("/login");
   }, [state]);
 
@@ -112,10 +113,17 @@ export default function SignUpForm() {
         </div>
         <SignUpButton />
         <div
-          className="flex h-8 items-end space-x-1"
+          className="flex h-8 items-end space-x-1 mt-2.5 items-center"
           aria-live="polite"
           aria-atomic="true"
-        ></div>
+        >
+          {state.message && (
+            <>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+              <p className="text-sm text-red-500">{state.message}</p>
+            </>
+          )}
+        </div>
       </div>
     </form>
   );

@@ -159,8 +159,8 @@ export async function signUp(state, formData) {
     return {
       isError: true,
       isSuccess: false,
-      message: "Databse error.",
-      data: { err },
+      message: "User already exists. Please enter another email.",
+      data: null,
     };
   }
 }
