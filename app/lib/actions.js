@@ -104,20 +104,60 @@ export async function authenticate(state, formData) {
   }
 }
 
+//type checking for emission data (so that relevant errors can be returned to the user)
+const EmissionSchema = z.object({
+  event_id: z.string().min(1, "Event ID error. Please refresh the page."),
+  name: z.string().min(1, "Name is required."),
+  miles: z.coerce.number().gt(0, "Distance should be greater than 0"),
+  passengers: z.coerce.number(),
+});
+
 //CREATE CARBON EVENT TO ADD THE CARBON FOOTPRINT TRACKER DATA
-export async function carbonEvent(formData) {
+export async function carbonEvent(state, formData) {
   const rawFormData = Object.fromEntries(formData.entries());
-  console.log(rawFormData);
+  const result = EmissionSchema.safeParse(rawFormData);
+  console.log(result);
+
+  if (!result.success) {
+    return {
+      isError: true,
+      isSuccess: false,
+      data: null,
+      errors: result.error.flatten().fieldErrors,
+      message: "Failed",
+    };
+  }
   console.log("Inserting emission data");
+
+  const { event_id, name, miles, passengers } = result.data;
 
   try {
     await sql`
     INSERT INTO emissions (event_id, driver_name, miles_to_event, passengers)
-    VALUES (${rawFormData.event_id}, ${rawFormData.name}, ${rawFormData.miles}, ${rawFormData.passengers})
+    VALUES (${event_id}, ${name}, ${miles}, ${passengers})
     `;
     console.log("Emission data added successfully");
+    return {
+      isError: false,
+      isSuccess: true,
+      message: "Success!",
+      data: {
+        event_id: rawFormData.event_id,
+        driver_name: rawFormData.name,
+        miles_to_event: rawFormData.miles,
+        passengers: rawFormData.passengers,
+      },
+      errors: null,
+    };
   } catch (err) {
-    console.log("Database Error: " + err);
+    console.log(err);
+    return {
+      isError: true,
+      isSuccess: false,
+      message: "Database error.",
+      data: null,
+      errors: { db: "Database error." },
+    };
   }
 
   revalidatePath("/events"); //clears the cache and triggers a new request to the server

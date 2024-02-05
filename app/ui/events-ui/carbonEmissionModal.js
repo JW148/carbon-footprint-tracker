@@ -9,10 +9,11 @@ import {
   Button,
   useDisclosure,
   Input,
+  Spinner,
 } from "@nextui-org/react";
-
+import { useFormState, useFormStatus } from "react-dom";
 import { carbonEvent } from "@/app/lib/actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CarbonEmissionModal({
   isOpen,
@@ -34,6 +35,18 @@ export default function CarbonEmissionModal({
     "full",
   ];
 
+  const [state, dispatch] = useFormState(carbonEvent, {
+    data: null,
+    isError: false,
+    isSuccess: false,
+    message: null,
+  });
+
+  useEffect(() => {
+    console.log(state);
+    if (state.isSuccess === true) onOpenChange(false);
+  }, [state]);
+
   return (
     <>
       <Modal
@@ -45,11 +58,11 @@ export default function CarbonEmissionModal({
         <ModalContent>
           {(onClose) => (
             // CREATE ADD EVENT SQL QUERY FOR FORM SUBMISSION
-            <form action={carbonEvent}>
+            <form action={dispatch}>
               <>
                 <ModalHeader className="flex flex-col gap-4">
-                  MDC Carbon Footprint Survey - This weeks' run:{" "}
-                  {eventData.date}
+                  {"MDC Carbon Footprint Survey - This weeks' run: " +
+                    eventData.date}
                 </ModalHeader>
                 <ModalBody>
                   <Input
@@ -69,6 +82,17 @@ export default function CarbonEmissionModal({
                     variant="bordered"
                   />
 
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.name && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.name[0]}
+                      >
+                        {state.errors.name[0]}
+                      </p>
+                    )}
+                  </div>
+
                   <Input
                     type="number"
                     label="How many miles in total did you drive to todays run (there & back)"
@@ -82,9 +106,20 @@ export default function CarbonEmissionModal({
                     }
                   />
 
+                  <div id="miles-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.miles && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.miles[0]}
+                      >
+                        {state.errors.miles[0]}
+                      </p>
+                    )}
+                  </div>
+
                   <Input
                     type="number"
-                    label="How many other passengers (not including the driver) were in your vehicle"
+                    label="How many miles in total did you drive to todays run (there & back)"
                     name="passengers"
                     placeholder={0}
                     labelPlacement="outside"
@@ -96,17 +131,56 @@ export default function CarbonEmissionModal({
                       </div>
                     }
                   />
+
+                  <div
+                    id="passenger-error"
+                    aria-live="polite"
+                    aria-atomic="true"
+                  >
+                    {state.errors?.passengers && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.passengers[0]}
+                      >
+                        {state.errors.passengers[0]}
+                      </p>
+                    )}
+                  </div>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="danger" onPress={onClose} type="submit">
-                    Submit
-                  </Button>
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.db && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.db}
+                      >
+                        {state.errors.db}
+                      </p>
+                    )}
+                  </div>
+                  <SubmitBtn />
                 </ModalFooter>
               </>
             </form>
           )}
         </ModalContent>
       </Modal>
+    </>
+  );
+}
+
+function SubmitBtn() {
+  const { pending } = useFormStatus();
+
+  return (
+    <>
+      {pending ? (
+        <Spinner />
+      ) : (
+        <Button color="danger" type="submit">
+          Submit
+        </Button>
+      )}
     </>
   );
 }

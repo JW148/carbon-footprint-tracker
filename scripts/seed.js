@@ -95,7 +95,7 @@ async function seedEmissions(client) {
         event_id UUID NOT NULL,
         driver_name VARCHAR(255) NOT NULL,
         miles_to_event INT NOT NULL,
-        passengers INT NOT NULL
+        passengers INT 
       );
     `;
 
