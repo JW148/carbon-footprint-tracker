@@ -10,6 +10,7 @@ import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Tooltip, Button } from "@nextui-org/react";
 import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/app/lib/actions";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -62,6 +63,13 @@ export default function LoginForm() {
           </div>
         </div>
         <LoginButton />
+        <Link
+          key="SignUp"
+          href="/sign-up"
+          className="p-2 mt-2 max-w-sm mx-auto bg-blue-500 rounded-xl flex items-center space-x-4 text-sm text-white"
+        >
+          <p>Sign Up</p>
+        </Link>
         <div
           className="flex h-8 items-end space-x-1"
           aria-live="polite"

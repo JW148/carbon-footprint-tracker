@@ -123,3 +123,44 @@ export async function carbonEvent(formData) {
   revalidatePath("/events"); //clears the cache and triggers a new request to the server
   redirect("/events");
 }
+
+import bcrypt from "bcrypt";
+
+export async function signUp(state, formData) {
+  const rawFormData = Object.fromEntries(formData.entries());
+  console.log(rawFormData);
+
+  //check that passwords match
+  //if they don't return an error early
+  if (rawFormData.password1 !== rawFormData.password2) {
+    return {
+      isError: true,
+      isSuccess: false,
+      message: "Passwords must match!",
+      data: null,
+    };
+  }
+  //otherwise create the new user in the db, hashing the password before storing it
+  try {
+    const hashedPassword = await bcrypt.hash(rawFormData.password1, 10);
+    await sql`
+      INSERT INTO users (name, email, password)
+      VALUES (${rawFormData.name}, ${rawFormData.email}, ${hashedPassword})
+      ON CONFLICT (id) DO NOTHING;
+    `;
+    return {
+      isError: false,
+      isSuccess: true,
+      message: "Success!",
+      data: { name: rawFormData.name, email: rawFormData.email },
+    };
+  } catch (err) {
+    console.error("Database error: ", err);
+    return {
+      isError: true,
+      isSuccess: false,
+      message: "Databse error.",
+      data: { err },
+    };
+  }
+}
