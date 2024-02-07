@@ -55,12 +55,17 @@ export async function editEvent(state, formData) {
   const rawFormData = Object.fromEntries(formData.entries());
   const result = FormDataSchema.safeParse(rawFormData);
 
+  //if form data does not match the schema definition, return errors early to be displayed to the user
   if (!result.success) {
     return {
+      isError: true,
+      isSuccess: false,
+      data: null,
       errors: result.error.flatten().fieldErrors,
       message: "Failed",
     };
   }
+
   console.log("Inserting event");
 
   try {
@@ -69,18 +74,23 @@ export async function editEvent(state, formData) {
     SET date = ${rawFormData.date}, run = ${rawFormData.run}, area = ${rawFormData.area}, near = ${rawFormData.near}, nearest_pc =  ${rawFormData.nearest_pc}, w3w = ${rawFormData.w3w}, gr = ${rawFormData.gr}, length = ${rawFormData.length}, climb = ${rawFormData.climb}
     WHERE id = ${rawFormData.id}
     `;
+    revalidatePath("/events");
     console.log("Event updated successfully");
-  } catch (err) {
     return {
-      message: "Database Error: Failed to Update Event: " + err,
+      isError: false,
+      isSuccess: true,
+      message: "Success!",
+      data: rawFormData,
+      errors: null,
     };
-  }
-  revalidatePath("/events");
-
-  if (result.success) {
+  } catch (err) {
+    console.log(err);
     return {
-      data: result.data,
-      message: "Success",
+      isError: true,
+      isSuccess: false,
+      message: "Database error.",
+      data: null,
+      errors: { db: "Database error." },
     };
   }
 }

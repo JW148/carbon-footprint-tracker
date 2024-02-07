@@ -61,15 +61,23 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
     }));
   };
 
-  const [state, formAction] = useFormState(editEvent, null);
-  console.log(state);
+  const [state, dispatch] = useFormState(editEvent, {
+    data: null,
+    isError: false,
+    isSuccess: false,
+    message: null,
+  });
+  useEffect(() => {
+    console.log(state);
+    if (state.isSuccess === true) onOpenChange(false);
+  }, [state]);
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose) => (
             // CREATE EDIT EVENT SQL QUERY FOR FORM SUBMISSION
-            <form action={formAction}>
+            <form action={dispatch}>
               <>
                 <ModalHeader className="flex flex-col gap-4">
                   Edit your Event
@@ -95,6 +103,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     variant="bordered"
                   />
 
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.date && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.date[0]}
+                      >
+                        {state.errors.date[0]}
+                      </p>
+                    )}
+                  </div>
+
                   <Input
                     label="Run"
                     name="run"
@@ -105,6 +124,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     variant="bordered"
                   />
 
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.run && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.run[0]}
+                      >
+                        {state.errors.run[0]}
+                      </p>
+                    )}
+                  </div>
+
                   <Input
                     label="Area"
                     name="area"
@@ -114,6 +144,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     onChange={handleInputChange}
                     variant="bordered"
                   />
+
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.area && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.area[0]}
+                      >
+                        {state.errors.area[0]}
+                      </p>
+                    )}
+                  </div>
 
                   <Select
                     label="Select Near"
@@ -131,6 +172,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     ))}
                   </Select>
 
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.near && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.near[0]}
+                      >
+                        {state.errors.near[0]}
+                      </p>
+                    )}
+                  </div>
+
                   <Input
                     label="Nearest Postcode"
                     name="nearest_pc"
@@ -140,6 +192,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     onChange={handleInputChange}
                     variant="bordered"
                   />
+
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.nearest_pc && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.nearest_pc[0]}
+                      >
+                        {state.errors.nearest_pc[0]}
+                      </p>
+                    )}
+                  </div>
 
                   <Input
                     label="W3W"
@@ -151,6 +214,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     variant="bordered"
                   />
 
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.w3w && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.w3w[0]}
+                      >
+                        {state.errors.w3w[0]}
+                      </p>
+                    )}
+                  </div>
+
                   <Input
                     label="GR"
                     name="gr"
@@ -160,6 +234,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     onChange={handleInputChange}
                     variant="bordered"
                   />
+
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.gr && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.gr[0]}
+                      >
+                        {state.errors.gr[0]}
+                      </p>
+                    )}
+                  </div>
 
                   <Input
                     type="number"
@@ -176,6 +261,17 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     }
                   />
 
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.length && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.length[0]}
+                      >
+                        {state.errors.length[0]}
+                      </p>
+                    )}
+                  </div>
+
                   <Input
                     type="number"
                     label="Climb"
@@ -190,9 +286,30 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                       </div>
                     }
                   />
+
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.climb && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.climb[0]}
+                      >
+                        {state.errors.climb[0]}
+                      </p>
+                    )}
+                  </div>
                 </ModalBody>
                 <ModalFooter>
-                  <Submit state={state} />
+                  <div id="name-error" aria-live="polite" aria-atomic="true">
+                    {state.errors?.db && (
+                      <p
+                        className="mt-2 text-sm text-red-500"
+                        key={state.errors.db}
+                      >
+                        {state.errors.db}
+                      </p>
+                    )}
+                  </div>
+                  <SubmitBtn />
                 </ModalFooter>
               </>
             </form>
@@ -203,36 +320,18 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
   );
 }
 
-function Submit({ state }) {
+function SubmitBtn() {
   const { pending } = useFormStatus();
 
-  if (pending) {
-    return <Spinner />;
-  }
-  if (!pending) {
-    return (
-      <Button color="danger" type="submit">
-        Submit
-      </Button>
-    );
-  }
-  if (!pending && state === "Success") {
-    return (
-      <Button color="danger" type="submit">
-        Close
-      </Button>
-    );
-  }
-
-  // return (
-  //   <>
-  //     {pending ? (
-  //       <Spinner />
-  //     ) : (
-  //       <Button color="danger" type="submit">
-  //         Submit
-  //       </Button>
-  //     )}
-  //   </>
-  // );
+  return (
+    <>
+      {pending ? (
+        <Spinner />
+      ) : (
+        <Button color="danger" type="submit">
+          Submit
+        </Button>
+      )}
+    </>
+  );
 }
