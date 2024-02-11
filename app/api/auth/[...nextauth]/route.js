@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
-import { authConfig } from "./auth.config";
-import Credentials from "next-auth/providers/credentials";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import bcrypt from "bcrypt";
@@ -17,11 +16,25 @@ async function getUser(email) {
   }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
-  ...authConfig,
+const handler = NextAuth({
+  pages: {
+    signIn: "/login",
+  },
+  session: {
+    strategy: "jwt",
+  },
   providers: [
-    Credentials({
-      async authorize(credentials) {
+    CredentialsProvider({
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        email: {},
+        password: {},
+      },
+      async authorize(credentials, req) {
+        console.log(credentials);
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
@@ -41,3 +54,5 @@ export const { auth, signIn, signOut } = NextAuth({
     }),
   ],
 });
+
+export { handler as GET, handler as POST };

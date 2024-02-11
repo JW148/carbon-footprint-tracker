@@ -1,27 +1,53 @@
 "use client";
 
-import { inter } from "@/app/ui/fonts";
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-} from "@heroicons/react/24/outline";
+import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import { Tooltip, Button } from "@nextui-org/react";
-import { useFormState, useFormStatus } from "react-dom";
-import { authenticate } from "@/app/lib/actions";
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { AuthError } from "next-auth";
+import { useEffect, useState } from "react";
 
 export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  //state to handle credential errors
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    try {
+      const response = await signIn("credentials", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        callbackUrl: "/events",
+      });
+      console.log(response);
+      if (response.status === 401) {
+        alert("Incorrect Credentials. Please try again.");
+      }
+    } catch (err) {
+      console.log(err);
+      if (err instanceof AuthError) {
+        switch (err.type) {
+          case "CredentialsSignin":
+            setError("Invalid credentials.");
+          default:
+            setError("Something went wrong.");
+        }
+      }
+      throw err;
+    }
+  };
+
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
 
   return (
-    <form action={dispatch} className="space-y-3">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${inter.className} mb-3 text-2xl`}>
-          Please log in to continue.
-        </h1>
-        <div className="w-full">
+        <h1 className={` mb-3 text-2xl`}>Please log in to continue.</h1>
+        <div className="w-full text-black">
           <div>
             <label
               className="mb-3 mt-5 block text-xs font-medium text-gray-900"
@@ -62,7 +88,9 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <LoginButton />
+        <Button className="mt-4 w-full" type="submit">
+          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+        </Button>
         <Link
           key="SignUp"
           href="/sign-up"
@@ -71,28 +99,18 @@ export default function LoginForm() {
           <p>Sign Up</p>
         </Link>
         <div
-          className="flex h-8 items-end space-x-1"
+          className="flex h-8 items-end space-x-1 text-black"
           aria-live="polite"
           aria-atomic="true"
         >
-          {errorMessage && (
+          {error && (
             <>
               <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{errorMessage}</p>
+              <p className="text-sm text-red-500">{error}</p>
             </>
           )}
         </div>
       </div>
     </form>
-  );
-}
-
-function LoginButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button className="mt-4 w-full" aria-disabled={pending} type="submit">
-      Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-    </Button>
   );
 }

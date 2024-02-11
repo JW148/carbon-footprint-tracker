@@ -95,25 +95,6 @@ export async function editEvent(state, formData) {
   }
 }
 
-import { signIn } from "@/auth";
-import { AuthError } from "next-auth";
-
-export async function authenticate(state, formData) {
-  try {
-    await signIn("credentials", formData);
-  } catch (err) {
-    if (err instanceof AuthError) {
-      switch (err.type) {
-        case "CredentialsSignin":
-          return "Invalid credentials.";
-        default:
-          return "Something went wrong.";
-      }
-    }
-    throw err;
-  }
-}
-
 //type checking for emission data (so that relevant errors can be returned to the user)
 const EmissionSchema = z.object({
   event_id: z.string().min(1, "Event ID error. Please refresh the page."),
