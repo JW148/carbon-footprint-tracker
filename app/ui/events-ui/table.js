@@ -24,8 +24,8 @@ import { MdOutlineDelete } from "react-icons/md";
 import { columns } from "@/app/lib/placeholder-data";
 import { DeleteEvent, AddEmissions } from "@/app/ui/events-ui/buttons";
 
-export default function EventsTable(events) {
-  const rows = events.events.map((event) => {
+export default function EventsTable({events, emissions}) {
+  const rows = events.map((event) => {
     return {
       key: event.id,
       date: event.date,
@@ -38,6 +38,16 @@ export default function EventsTable(events) {
       length: event.length,
       climb: event.climb,
     };
+  });
+
+  const rowsCarbon = emissions?.map((emission) => {
+    return {
+      emissionKey: emission.id,
+      key: emission.event_id,
+      name: emission.driver_name,
+      miles: emission.miles_to_event,
+      passengers: emission.passengers,
+    }
   });
 
   const renderCell = (item, columnKey) => {
@@ -71,11 +81,19 @@ export default function EventsTable(events) {
   const [isEmissionModalOpen, setIsEmissionModalOpen] = useState(false);
 
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedCarbon, setSelectedCarbon] = useState(null);
 
   // Function to handle row click
   // Open the modal and pass the data from that row into the modal
   const handleRowClick = (eventData) => {
+
+    // Find the corresponding emission data for the clicked event
+    const selectedEmission = rowsCarbon.find(emission => emission.key === eventData.key);
+
+    console.log("Emission Data: ", selectedEmission)
+
     setSelectedEvent(eventData);
+    setSelectedCarbon(selectedEmission)
     setIsModalOpen(true);
   };
 
@@ -114,6 +132,7 @@ export default function EventsTable(events) {
         isOpen={isModalOpen}
         onOpenChange={setIsModalOpen}
         eventData={selectedEvent}
+        emissionsData={selectedCarbon}
       />
 
       <EditEventModal

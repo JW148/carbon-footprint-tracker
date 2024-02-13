@@ -3,7 +3,7 @@
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react";
 import { useState } from "react";
 
-export default function EventDetailsModal({ isOpen, onOpenChange, eventData }) {
+export default function EventDetailsModal({ isOpen, onOpenChange, eventData, emissionsData }) {
 
     //sizes of modals
     const [size, setSize] = useState("4xl")
@@ -48,11 +48,30 @@ export default function EventDetailsModal({ isOpen, onOpenChange, eventData }) {
 
                     </ModalBody>
 
+                    {emissionsData && isOpen && (
+                        <>
+                            <ModalHeader className="pl-20 pt-10 main_header">Carbon Emissions Details</ModalHeader>
+                            <ModalBody>
+                                {eventData && (
+                                <div className="pl-14">
+                                    {/* Display event details here using eventData */}
+                                    <div className="grid grid-cols-1 py-3">
+                                        <p>Name: {emissionsData.name}</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 py-3">
+                                        <p>Number of Miles Driven: {emissionsData.miles}</p>
+                                        <p>Number of Passengers: {emissionsData.passengers}</p>
+                                    </div>
+                                </div>
+                                )}
+
+                            </ModalBody>
+                        </>
+                    )}
+
                     {/* Add authentication to hide/unhide the button if thats not thier entry */}  
                     <ModalFooter>
-                        <Button color="danger" onPress={onClose}>
-                        Edit Event
-                        </Button>
                     </ModalFooter>
                 </>
             )}

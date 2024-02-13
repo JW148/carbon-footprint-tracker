@@ -119,7 +119,7 @@ export default function CarbonEmissionModal({
 
                   <Input
                     type="number"
-                    label="How many miles in total did you drive to todays run (there & back)"
+                    label="How many other passengers (not including the driver) were in your vehicle?"
                     name="passengers"
                     placeholder={0}
                     labelPlacement="outside"
