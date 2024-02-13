@@ -48,27 +48,26 @@ export default function EventDetailsModal({ isOpen, onOpenChange, eventData, emi
 
                     </ModalBody>
 
-                    {emissionsData && isOpen && (
+                    {emissionsData && emissionsData.length > 0 && isOpen && (
                         <>
                             <ModalHeader className="pl-20 pt-10 main_header">Carbon Emissions Details</ModalHeader>
                             <ModalBody>
-                                {eventData && (
-                                <div className="pl-14">
-                                    {/* Display event details here using eventData */}
-                                    <div className="grid grid-cols-1 py-3">
-                                        <p>Name: {emissionsData.name}</p>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 py-3">
-                                        <p>Number of Miles Driven: {emissionsData.miles}</p>
-                                        <p>Number of Passengers: {emissionsData.passengers}</p>
-                                    </div>
+                            {emissionsData.map((emission, index) => (
+                                <div className="pl-14" key={index}>
+                                {/* Display event details here using emission */}
+                                <div className="grid grid-cols-1 py-3">
+                                    <p>Name: {emission.name}</p>
                                 </div>
-                                )}
 
+                                <div className="grid grid-cols-2 py-3">
+                                    <p>Number of Miles Driven: {emission.miles}</p>
+                                    <p>Number of Passengers: {emission.passengers}</p>
+                                </div>
+                                </div>
+                            ))}
                             </ModalBody>
                         </>
-                    )}
+                        )}
 
                     {/* Add authentication to hide/unhide the button if thats not thier entry */}  
                     <ModalFooter>

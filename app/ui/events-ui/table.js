@@ -88,7 +88,7 @@ export default function EventsTable({events, emissions}) {
   const handleRowClick = (eventData) => {
 
     // Find the corresponding emission data for the clicked event
-    const selectedEmission = rowsCarbon.find(emission => emission.key === eventData.key);
+    const selectedEmission = rowsCarbon.filter(emission => emission.key === eventData.key);
 
     console.log("Emission Data: ", selectedEmission)
 
