@@ -17,8 +17,8 @@ async function seedEvents(client) {
                 nearest_pc VARCHAR(255) NOT NULL,
                 w3w VARCHAR(255) NOT NULL,
                 gr VARCHAR(255) NOT NULL,
-                length VARCHAR(255) NOT NULL,
-                climb VARCHAR(255) NOT NULL
+                length REAL NOT NULL,
+                climb INT NOT NULL
 
             );
         `;
