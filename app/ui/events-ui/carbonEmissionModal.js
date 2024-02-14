@@ -14,6 +14,7 @@ import {
 import { useFormState, useFormStatus } from "react-dom";
 import { carbonEvent } from "@/app/lib/actions";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function CarbonEmissionModal({
   isOpen,
@@ -47,6 +48,8 @@ export default function CarbonEmissionModal({
     if (state.isSuccess === true) onOpenChange(false);
   }, [state]);
 
+  const { data: session, status } = useSession();
+
   return (
     <>
       <Modal
@@ -73,13 +76,12 @@ export default function CarbonEmissionModal({
                     variant="faded"
                     isReadOnly
                   />
-
                   <Input
-                    label="Drivers Name"
                     name="name"
+                    label="Driver's name"
                     labelPlacement="outside"
-                    placeholder="Enter the drivers name"
-                    variant="bordered"
+                    value={session.user?.name}
+                    isClearable={true}
                   />
 
                   <div id="name-error" aria-live="polite" aria-atomic="true">
