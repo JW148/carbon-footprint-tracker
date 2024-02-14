@@ -27,15 +27,15 @@ export default function LoginForm() {
       }
     } catch (err) {
       console.log(err);
-      if (err instanceof AuthError) {
-        switch (err.type) {
-          case "CredentialsSignin":
-            setError("Invalid credentials.");
-          default:
-            setError("Something went wrong.");
-        }
-      }
-      throw err;
+      //   if (err instanceof AuthError) { //Comparison using 'instance of' causes error: right hand side comparison is not an object...
+      //     switch (err.type) {
+      //       case "CredentialsSignin":
+      //         setError("Invalid credentials.");
+      //       default:
+      //         setError("Something went wrong.");
+      //     }
+      //   }
+      //   throw err;
     }
   };
 

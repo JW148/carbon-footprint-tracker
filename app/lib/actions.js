@@ -4,42 +4,7 @@ import { z } from "zod"; //for type checking and coercion
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function createEvent(formData) {
-  const rawFormData = Object.fromEntries(formData.entries());
-  console.log(rawFormData);
-  console.log("Inserting event");
-
-  //inserting data into the db
-  try {
-    await sql`
-    INSERT INTO events (date, run, area, near, nearest_pc, w3w, gr, length, climb)
-    VALUES (${rawFormData.date}, ${rawFormData.run}, ${rawFormData.area}, ${
-      rawFormData.near
-    }, ${rawFormData.nearest_pc}, ${rawFormData.w3w}, ${rawFormData.gr}, ${
-      rawFormData.length + "km"
-    }, ${rawFormData.climb + "m"})
-  `;
-    console.log("Events added successfully");
-  } catch (err) {
-    console.log("Database Error: " + err);
-  }
-
-  revalidatePath("/events"); //clears the cache and triggers a new request to the server
-  redirect("/events");
-}
-
-export async function deleteEvent(id) {
-  try {
-    await sql`DELETE FROM events WHERE id = ${id}`;
-  } catch (err) {
-    console.log("Database error: " + err);
-  }
-
-  revalidatePath("/events");
-}
-
-const FormDataSchema = z.object({
-  id: z.string().min(1, "ID not provided"),
+const CreateSchema = z.object({
   date: z.string().min(1, "Date is required."),
   run: z.string().min(1, "Run is required."),
   area: z.string().min(1, "Area is required."),
@@ -47,13 +12,15 @@ const FormDataSchema = z.object({
   nearest_pc: z.string().min(1, "Nearest Post Code is required."),
   w3w: z.string().min(1, "W3W is required."),
   gr: z.string().min(1, "GR is required"),
-  length: z.string().min(1, "Length is required."),
-  climb: z.string().min(1, "Climb is required."),
+  length: z.coerce.number().gt(1, "Length is required."),
+  climb: z.coerce.number().gt(1, "Climb is required."),
 });
 
-export async function editEvent(state, formData) {
+export async function createEvent(state, formData) {
   const rawFormData = Object.fromEntries(formData.entries());
-  const result = FormDataSchema.safeParse(rawFormData);
+  console.log(typeof rawFormData.date);
+  const result = CreateSchema.safeParse(rawFormData);
+  console.log(result);
 
   //if form data does not match the schema definition, return errors early to be displayed to the user
   if (!result.success) {
@@ -68,11 +35,84 @@ export async function editEvent(state, formData) {
 
   console.log("Inserting event");
 
+  const { date, run, area, near, nearest_pc, w3w, gr, length, climb } =
+    result.data;
+
+  //inserting data into the db
+  try {
+    await sql`
+    INSERT INTO events (date, run, area, near, nearest_pc, w3w, gr, length, climb)
+    VALUES (${date}, ${run}, ${area}, ${near}, ${nearest_pc}, ${w3w}, ${gr}, ${length}, ${climb})
+  `;
+    console.log("Event added successfully");
+    revalidatePath("/events");
+    return {
+      isError: false,
+      isSuccess: true,
+      message: "Success!",
+      data: result.data,
+      errors: null,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      isError: true,
+      isSuccess: false,
+      message: "Database error.",
+      data: null,
+      errors: { db: "Database error." },
+    };
+  }
+}
+
+export async function deleteEvent(id) {
+  try {
+    await sql`DELETE FROM events WHERE id = ${id}`;
+  } catch (err) {
+    console.log("Database error: " + err);
+  }
+
+  revalidatePath("/events");
+}
+
+const EditSchema = z.object({
+  id: z.string().min(1, "Error fetching ID"),
+  date: z.string().min(1, "Date is required."),
+  run: z.string().min(1, "Run is required."),
+  area: z.string().min(1, "Area is required."),
+  near: z.string().min(1, "Near is required."),
+  nearest_pc: z.string().min(1, "Nearest Post Code is required."),
+  w3w: z.string().min(1, "W3W is required."),
+  gr: z.string().min(1, "GR is required"),
+  length: z.coerce.number().gt(1, "Length is required."),
+  climb: z.coerce.number().gt(1, "Climb is required."),
+});
+
+export async function editEvent(state, formData) {
+  const rawFormData = Object.fromEntries(formData.entries());
+  const result = EditSchema.safeParse(rawFormData);
+
+  //if form data does not match the schema definition, return errors early to be displayed to the user
+  if (!result.success) {
+    return {
+      isError: true,
+      isSuccess: false,
+      data: null,
+      errors: result.error.flatten().fieldErrors,
+      message: "Failed",
+    };
+  }
+
+  const { id, date, run, area, near, nearest_pc, w3w, gr, length, climb } =
+    result.data;
+
+  console.log("Inserting event");
+
   try {
     await sql`
     UPDATE events
-    SET date = ${rawFormData.date}, run = ${rawFormData.run}, area = ${rawFormData.area}, near = ${rawFormData.near}, nearest_pc =  ${rawFormData.nearest_pc}, w3w = ${rawFormData.w3w}, gr = ${rawFormData.gr}, length = ${rawFormData.length}, climb = ${rawFormData.climb}
-    WHERE id = ${rawFormData.id}
+    SET date = ${date}, run = ${run}, area = ${area}, near = ${near}, nearest_pc =  ${nearest_pc}, w3w = ${w3w}, gr = ${gr}, length = ${length}, climb = ${climb}
+    WHERE id = ${id}
     `;
     revalidatePath("/events");
     console.log("Event updated successfully");
@@ -80,7 +120,7 @@ export async function editEvent(state, formData) {
       isError: false,
       isSuccess: true,
       message: "Success!",
-      data: rawFormData,
+      data: result.data,
       errors: null,
     };
   } catch (err) {
@@ -128,6 +168,7 @@ export async function carbonEvent(state, formData) {
     VALUES (${event_id}, ${name}, ${miles}, ${passengers})
     `;
     console.log("Emission data added successfully");
+    revalidatePath("/events");
     return {
       isError: false,
       isSuccess: true,
@@ -150,9 +191,6 @@ export async function carbonEvent(state, formData) {
       errors: { db: "Database error." },
     };
   }
-
-  revalidatePath("/events"); //clears the cache and triggers a new request to the server
-  redirect("/events");
 }
 
 import bcrypt from "bcrypt";

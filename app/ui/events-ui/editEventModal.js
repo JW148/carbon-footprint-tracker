@@ -96,6 +96,7 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
                     autoFocus
                     name="date"
                     label="Date"
+                    type="date"
                     labelPlacement="outside"
                     placeholder="Enter the date"
                     value={formData.date}
