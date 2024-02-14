@@ -21,7 +21,6 @@ export default function LoginForm() {
         password: formData.get("password"),
         callbackUrl: "/events",
       });
-      console.log(response);
       if (response.status === 401) {
         alert("Incorrect Credentials. Please try again.");
       }
