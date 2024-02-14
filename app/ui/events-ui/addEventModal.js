@@ -198,7 +198,7 @@ export default function AddEventModal() {
                     type="number"
                     label="Climb"
                     name="climb"
-                    placeholder="0.0"
+                    placeholder="0"
                     labelPlacement="outside"
                     startContent={
                       <div className="pointer-events-none flex items-center">

@@ -1,6 +1,6 @@
 const events = [
   {
-    date: "23-11-07",
+    date: "2023-11-07",
     run: "///influencing.senior.unions",
     area: "AGM",
     near: "South-east",
@@ -11,7 +11,7 @@ const events = [
     climb: 200,
   },
   {
-    date: "23-11-21",
+    date: "2023-11-21",
     run: "///blitz.reef.minivans",
     area: "Pant-y-Wal",
     near: "South-west",
@@ -22,7 +22,7 @@ const events = [
     climb: 490,
   },
   {
-    date: "23-12-05",
+    date: "2023-12-05",
     run: "///loitering.squad.successes",
     area: "Moel Penderyn",
     near: "North-west",
@@ -33,7 +33,7 @@ const events = [
     climb: 510,
   },
   {
-    date: "23-12-19",
+    date: "2023-12-19",
     run: "TBC",
     area: "Mari Lwyd",
     near: "South-east",
@@ -44,7 +44,7 @@ const events = [
     climb: 0,
   },
   {
-    date: "24-01-02",
+    date: "2024-01-02",
     run: "///juicy.scuba.jacket",
     area: "Cwmaman",
     near: "North-west	",
@@ -55,7 +55,7 @@ const events = [
     climb: 505,
   },
   {
-    date: "24-01-16",
+    date: "2024-01-16",
     run: "///correctly.inch.carver",
     area: "Cwmcarn",
     near: "South-east",
@@ -66,7 +66,7 @@ const events = [
     climb: 350,
   },
   {
-    date: "24-01-30",
+    date: "2024-01-30",
     run: "///tens.fairway.realm",
     area: "Pen y Fan",
     near: "North-west",
@@ -77,7 +77,7 @@ const events = [
     climb: 510,
   },
   {
-    date: "24-02-13",
+    date: "2024-02-13",
     run: "///craziest.volcano.training",
     area: "Gilfach Goch",
     near: "South-west",
@@ -88,7 +88,7 @@ const events = [
     climb: 360,
   },
   {
-    date: "24-02-27",
+    date: "2024-02-27",
     run: "///boarded.waxing.exits	",
     area: "Sirhowy Country Park",
     near: "South-east",
@@ -99,7 +99,7 @@ const events = [
     climb: 520,
   },
   {
-    date: "24-03-12",
+    date: "2024-03-12",
     run: "///edges.class.slimy",
     area: "Gethin Bike Park Wales",
     near: "North-west",
@@ -110,7 +110,7 @@ const events = [
     climb: 520,
   },
   {
-    date: "24-03-26",
+    date: "2024-03-26",
     run: "///stint.snacks.gasping",
     area: "Mynydd y Gaer",
     near: "South-west",

@@ -16,15 +16,14 @@ import EventDetailsModal from "@/app/ui/events-ui/eventDetailsModal";
 import EditEventModal from "@/app/ui/events-ui/editEventModal";
 import CarbonEmissionModal from "@/app/ui/events-ui/carbonEmissionModal";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { FaRegEdit } from "react-icons/fa";
-import { MdOutlineDelete } from "react-icons/md";
 
 import { columns } from "@/app/lib/placeholder-data";
 import { DeleteEvent, AddEmissions } from "@/app/ui/events-ui/buttons";
 
-export default function EventsTable({events, emissions}) {
+export default function EventsTable({ events, emissions }) {
   const rows = events.map((event) => {
     return {
       key: event.id,
@@ -47,7 +46,7 @@ export default function EventsTable({events, emissions}) {
       name: emission.driver_name,
       miles: emission.miles_to_event,
       passengers: emission.passengers,
-    }
+    };
   });
 
   const renderCell = (item, columnKey) => {
@@ -70,6 +69,12 @@ export default function EventsTable({events, emissions}) {
           <DeleteEvent id={item.key} />
         </div>
       );
+    } else if (columnKey === "length") {
+      const val = getKeyValue(item, columnKey);
+      return <p>{val}km</p>;
+    } else if (columnKey === "climb") {
+      const val = getKeyValue(item, columnKey);
+      return <p>{val}m</p>;
     } else {
       return getKeyValue(item, columnKey);
     }
@@ -86,14 +91,15 @@ export default function EventsTable({events, emissions}) {
   // Function to handle row click
   // Open the modal and pass the data from that row into the modal
   const handleRowClick = (eventData) => {
-
     // Find the corresponding emission data for the clicked event
-    const selectedEmission = rowsCarbon.filter(emission => emission.key === eventData.key);
+    const selectedEmission = rowsCarbon.filter(
+      (emission) => emission.key === eventData.key
+    );
 
-    console.log("Emission Data: ", selectedEmission)
+    console.log("Emission Data: ", selectedEmission);
 
     setSelectedEvent(eventData);
-    setSelectedCarbon(selectedEmission)
+    setSelectedCarbon(selectedEmission);
     setIsModalOpen(true);
   };
 
