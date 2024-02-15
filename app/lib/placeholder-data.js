@@ -169,6 +169,7 @@ const emissions = [
   {
     event_id: "0d2ab2cb-d5aa-42e7-9bb5-b41d004f89ad",
     driver_name: "John Doe",
+    driver_id: "410544b2-4001-4271-9855-fec4b6a6442a",
     miles_to_event: 20,
     passengers: 2,
   },

@@ -44,6 +44,7 @@ export default function EventsTable({ events, emissions }) {
       emissionKey: emission.id,
       key: emission.event_id,
       name: emission.driver_name,
+      driver_id: emission.driver_id,
       miles: emission.miles_to_event,
       passengers: emission.passengers,
     };

@@ -94,6 +94,7 @@ async function seedEmissions(client) {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         event_id UUID NOT NULL,
         driver_name VARCHAR(255) NOT NULL,
+        driver_id UUID NOT NULL,
         miles_to_event INT NOT NULL,
         passengers INT 
       );
@@ -105,8 +106,8 @@ async function seedEmissions(client) {
     const insertedEmissions = await Promise.all(
       emissions.map(
         (emission) => client.sql`
-        INSERT INTO emissions (event_id, driver_name, miles_to_event, passengers)
-        VALUES (${emission.event_id}, ${emission.driver_name}, ${emission.miles_to_event}, ${emission.passengers})
+        INSERT INTO emissions (event_id, driver_name, driver_id, miles_to_event, passengers)
+        VALUES (${emission.event_id}, ${emission.driver_name}, ${emission.driver_id}, ${emission.miles_to_event}, ${emission.passengers})
         ON CONFLICT (id) DO NOTHING;
       `
       )

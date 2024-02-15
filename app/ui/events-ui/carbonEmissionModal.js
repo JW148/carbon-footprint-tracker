@@ -36,7 +36,11 @@ export default function CarbonEmissionModal({
     "full",
   ];
 
-  const [state, dispatch] = useFormState(carbonEvent, {
+  const { data: session, status } = useSession();
+  //bind the authenticated user's id to the carbonEvent server action
+  const carbonEventWithUserID = carbonEvent.bind(null, session.user.id);
+
+  const [state, dispatch] = useFormState(carbonEventWithUserID, {
     data: null,
     isError: false,
     isSuccess: false,
@@ -47,8 +51,6 @@ export default function CarbonEmissionModal({
     console.log(state);
     if (state.isSuccess === true) onOpenChange(false);
   }, [state]);
-
-  const { data: session, status } = useSession();
 
   return (
     <>

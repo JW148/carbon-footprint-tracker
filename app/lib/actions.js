@@ -153,7 +153,9 @@ const EmissionSchema = z.object({
 });
 
 //CREATE CARBON EVENT TO ADD THE CARBON FOOTPRINT TRACKER DATA
-export async function carbonEvent(state, formData) {
+export async function carbonEvent(driver_id, state, formData) {
+  console.log(driver_id);
+  console.log(formData);
   const rawFormData = Object.fromEntries(formData.entries());
   const result = EmissionSchema.safeParse(rawFormData);
   console.log(result);
@@ -173,8 +175,8 @@ export async function carbonEvent(state, formData) {
 
   try {
     await sql`
-    INSERT INTO emissions (event_id, driver_name, miles_to_event, passengers)
-    VALUES (${event_id}, ${name}, ${miles}, ${passengers})
+    INSERT INTO emissions (event_id, driver_name, driver_id, miles_to_event, passengers)
+    VALUES (${event_id}, ${name}, ${driver_id}, ${miles}, ${passengers})
     `;
     console.log("Emission data added successfully");
     revalidatePath("/events");

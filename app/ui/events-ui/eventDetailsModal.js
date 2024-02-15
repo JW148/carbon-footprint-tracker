@@ -11,6 +11,7 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { DeleteEmission } from "./buttons";
+import { useSession } from "next-auth/react";
 
 export default function EventDetailsModal({
   isOpen,
@@ -32,6 +33,8 @@ export default function EventDetailsModal({
     "5xl",
     "full",
   ];
+
+  const { data: session, status } = useSession();
 
   return (
     <>
@@ -85,7 +88,9 @@ export default function EventDetailsModal({
                           <p className="font-medium">
                             Name: <p className="font-normal">{emission.name}</p>
                           </p>
-                          <DeleteEmission id={emission.emissionKey} />
+                          {session.user.id === emission.driver_id && (
+                            <DeleteEmission id={emission.emissionKey} />
+                          )}
                         </div>
                         <Divider />
                         <div className="grid grid-cols-2 py-3">
