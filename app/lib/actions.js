@@ -75,6 +75,15 @@ export async function deleteEvent(id) {
   revalidatePath("/events");
 }
 
+export async function deleteEmission(id) {
+  try {
+    await sql`DELETE FROM emissions WHERE id = ${id}`;
+  } catch (err) {
+    console.log(err);
+  }
+  revalidatePath("/events");
+}
+
 const EditSchema = z.object({
   id: z.string().min(1, "Error fetching ID"),
   date: z.string().min(1, "Date is required."),
