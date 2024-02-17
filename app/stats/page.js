@@ -1,20 +1,12 @@
-"use client";
 
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { models } from "powerbi-client";
-
-const PowerBIEmbed = dynamic(
-  () => import("powerbi-client-react").then((mod) => mod.PowerBIEmbed),
-  { ssr: false }
-);
 
 export default function Page() {
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const DynamicDashboard = dynamic(() =>
+    import('@/app/ui/stats-ui/dashboard').then((dashboard) => dashboard.default),
+    { ssr: false }
+  );
 
   return (
     <>
@@ -32,55 +24,11 @@ export default function Page() {
             culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </article>
-
-        {isClient && (
-          <PowerBIEmbed
-            embedConfig={{
-              type: "report", // Supported types: report, dashboard, tile, visual, qna, paginated report and create
-              id: process.env.NEXT_PUBLIC_POWERBI_REPORT_ID,
-              embedUrl: process.env.NEXT_PUBLIC_POWERBI_EMBED_URL,
-              accessToken: process.env.NEXT_PUBLIC_POWERBI_ACCESS_TOKEN,
-              tokenType: models.TokenType.Aad, // Use models.TokenType.Aad for SaaS embed
-              settings: {
-                panes: {
-                  filters: {
-                    expanded: false,
-                    visible: false,
-                  },
-                },
-                background: models.BackgroundType.Transparent,
-              },
-            }}
-            eventHandlers={
-              new Map([
-                [
-                  "loaded",
-                  function () {
-                    console.log("Report loaded");
-                  },
-                ],
-                [
-                  "rendered",
-                  function () {
-                    console.log("Report rendered");
-                  },
-                ],
-                [
-                  "error",
-                  function (event) {
-                    console.log(event.detail);
-                  },
-                ],
-                ["visualClicked", () => console.log("visual clicked")],
-                ["pageChanged", (event) => console.log(event)],
-              ])
-            }
-            cssClassName={"embedContainer embedContainerHeight"}
-            getEmbeddedComponent={(embeddedReport) => {
-              window.Report = embeddedReport;
-            }}
-          />
-        )}
+        
+          <>
+            <DynamicDashboard />
+          </>
+  
       </section>
     </>
   );
