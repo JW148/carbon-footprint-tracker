@@ -5,8 +5,8 @@ import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { AuthError } from "next-auth";
 import { useEffect, useState } from "react";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 export default function LoginForm() {
   //state to handle credential errors
@@ -16,25 +16,13 @@ export default function LoginForm() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     try {
-      const response = await signIn("credentials", {
+      await signIn("credentials", {
         email: formData.get("email"),
         password: formData.get("password"),
         callbackUrl: "/events",
       });
-      if (response.status === 401) {
-        alert("Incorrect Credentials. Please try again.");
-      }
     } catch (err) {
       console.log(err);
-      //   if (err instanceof AuthError) { //Comparison using 'instance of' causes error: right hand side comparison is not an object...
-      //     switch (err.type) {
-      //       case "CredentialsSignin":
-      //         setError("Invalid credentials.");
-      //       default:
-      //         setError("Something went wrong.");
-      //     }
-      //   }
-      //   throw err;
     }
   };
 

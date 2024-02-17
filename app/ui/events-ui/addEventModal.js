@@ -17,6 +17,7 @@ import { selectOptions } from "@/scripts/selectData";
 import { createEvent } from "@/app/lib/actions";
 import { useFormState, useFormStatus } from "react-dom";
 import { useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export default function AddEventModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -30,15 +31,18 @@ export default function AddEventModal() {
   });
 
   useEffect(() => {
-    console.log(state);
     if (state.isSuccess === true) onOpenChange(false);
   }, [state]);
 
+  const { data: session, status } = useSession();
+
   return (
     <>
-      <Button onPress={onOpen} color="danger">
-        Add Event
-      </Button>
+      {session?.user?.type === "admin" && (
+        <Button onPress={onOpen} color="danger">
+          Add Event
+        </Button>
+      )}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose) => (

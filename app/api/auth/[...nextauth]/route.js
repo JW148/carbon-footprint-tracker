@@ -54,9 +54,18 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      user && (token.user = user);
+      return token;
+    },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token and user id from a provider.
-      session.user.id = token.sub;
+      session.user = {
+        id: token.user.id,
+        name: token.user.name,
+        email: token.user.email,
+        type: token.user.type,
+      };
       return session;
     },
   },

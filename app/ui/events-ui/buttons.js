@@ -37,7 +37,7 @@ function DeleteBtn() {
       {status.pending ? (
         <Spinner size="sm" />
       ) : (
-        <Tooltip color="danger" content="Delete event">
+        <Tooltip color="danger" content="Delete">
           <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
             <Button isIconOnly className="bg-transparent" type="submit">
               <MdOutlineDelete size="1.5em" color="red" />

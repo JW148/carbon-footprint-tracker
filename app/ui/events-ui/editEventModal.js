@@ -68,7 +68,6 @@ export default function EditEventModal({ isOpen, onOpenChange, eventData }) {
     message: null,
   });
   useEffect(() => {
-    console.log(state);
     if (state.isSuccess === true) onOpenChange(false);
   }, [state]);
   return (

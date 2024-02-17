@@ -23,7 +23,11 @@ import { FaRegEdit } from "react-icons/fa";
 import { columns } from "@/app/lib/placeholder-data";
 import { DeleteEvent, AddEmissions } from "@/app/ui/events-ui/buttons";
 
+import { useSession } from "next-auth/react";
+
 export default function EventsTable({ events, emissions }) {
+  const { data: session, status } = useSession();
+
   const rows = events.map((event) => {
     return {
       key: event.id,
@@ -56,7 +60,7 @@ export default function EventsTable({ events, emissions }) {
         <div className="relative flex items-center">
           <AddEmissions onClick={() => handleEmissionsClick(item)} />
 
-          <Tooltip content="Edit Event">
+          <Tooltip content="Edit">
             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
               <Button
                 isIconOnly
@@ -67,7 +71,7 @@ export default function EventsTable({ events, emissions }) {
               </Button>
             </span>
           </Tooltip>
-          <DeleteEvent id={item.key} />
+          {session?.user?.type === "admin" && <DeleteEvent id={item.key} />}
         </div>
       );
     } else if (columnKey === "length") {

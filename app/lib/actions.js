@@ -224,8 +224,10 @@ export async function signUp(state, formData) {
   try {
     const hashedPassword = await bcrypt.hash(rawFormData.password1, 10);
     await sql`
-      INSERT INTO users (name, email, password)
-      VALUES (${rawFormData.name}, ${rawFormData.email}, ${hashedPassword})
+      INSERT INTO users (name, email, password, type)
+      VALUES (${rawFormData.name}, ${
+      rawFormData.email
+    }, ${hashedPassword}, ${"user"})
       ON CONFLICT (id) DO NOTHING;
     `;
     return {
