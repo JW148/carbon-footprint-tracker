@@ -20,7 +20,7 @@ export default function Page() {
     <>
       <section className="flex min-h-screen flex-col items-center justify-between p-24">
         <article className="w-2/3 px-4 pt-8 pb-12">
-          <h1 className="main_header">Your Journey's so far</h1>
+          <h1 className="main_header">Your Journey`s so far</h1>
 
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
