@@ -7,7 +7,7 @@ import { PowerBIEmbed } from 'powerbi-client-react';
 import { models } from 'powerbi-client';
 
 
-const dashboard = () => {
+const Dashboard = () => {
 
     const [isClient, setIsClient] = useState(false);
 
@@ -62,4 +62,4 @@ const dashboard = () => {
   )
 }
 
-export default dashboard
+export default Dashboard
