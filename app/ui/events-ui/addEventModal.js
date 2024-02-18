@@ -1,23 +1,23 @@
 "use client";
 
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  useDisclosure,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Spinner,
+  useDisclosure,
 } from "@nextui-org/react";
 
-import { Select, SelectItem } from "@nextui-org/react";
-import { selectOptions } from "@/scripts/selectData";
 import { createEvent } from "@/app/lib/actions";
-import { useFormState, useFormStatus } from "react-dom";
-import { useEffect } from "react";
+import { selectOptions } from "@/scripts/selectData";
+import { Select, SelectItem } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 export default function AddEventModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();

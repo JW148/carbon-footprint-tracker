@@ -1,10 +1,16 @@
-
 import dynamic from "next/dynamic";
 
-export default function Page() {
+export const metadata = {
+  title: "MDC | Stats",
+  description: "MDC Carbon Footprint Tracker",
+};
 
-  const DynamicDashboard = dynamic(() =>
-    import('@/app/ui/stats-ui/dashboard').then((dashboard) => dashboard.default),
+export default function Page() {
+  const DynamicDashboard = dynamic(
+    () =>
+      import("@/app/ui/stats-ui/dashboard").then(
+        (dashboard) => dashboard.default
+      ),
     { ssr: false }
   );
 
@@ -24,11 +30,10 @@ export default function Page() {
             culpa qui officia deserunt mollit anim id est laborum.
           </p>
         </article>
-        
-          <>
-            <DynamicDashboard />
-          </>
-  
+
+        <>
+          <DynamicDashboard />
+        </>
       </section>
     </>
   );

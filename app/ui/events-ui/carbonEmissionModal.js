@@ -1,20 +1,19 @@
 "use client";
 
+import { carbonEvent } from "@/app/lib/actions";
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  useDisclosure,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Spinner,
 } from "@nextui-org/react";
-import { useFormState, useFormStatus } from "react-dom";
-import { carbonEvent } from "@/app/lib/actions";
-import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
 
 export default function CarbonEmissionModal({
   isOpen,

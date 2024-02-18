@@ -1,27 +1,27 @@
 "use client";
 
 import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-  Tooltip,
   Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  Tooltip,
+  getKeyValue,
 } from "@nextui-org/react";
 
-import EventDetailsModal from "@/app/ui/events-ui/eventDetailsModal";
-import EditEventModal from "@/app/ui/events-ui/editEventModal";
 import CarbonEmissionModal from "@/app/ui/events-ui/carbonEmissionModal";
+import EditEventModal from "@/app/ui/events-ui/editEventModal";
+import EventDetailsModal from "@/app/ui/events-ui/eventDetailsModal";
 
 import { useState } from "react";
 
 import { FaRegEdit } from "react-icons/fa";
 
 import { columns } from "@/app/lib/placeholder-data";
-import { DeleteEvent, AddEmissions } from "@/app/ui/events-ui/buttons";
+import { AddEmissions, DeleteEvent } from "@/app/ui/events-ui/buttons";
 
 import { useSession } from "next-auth/react";
 

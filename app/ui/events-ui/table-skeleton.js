@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-} from "@nextui-org/react";
+import { Table, TableBody, TableColumn, TableHeader } from "@nextui-org/react";
 
 // Loading animation
 const shimmer =

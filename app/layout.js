@@ -1,12 +1,11 @@
-import "@/app/ui/global.css";
-import { inter } from "@/app/ui/fonts";
-import NavBar from "@/app/ui/navbar/navbar";
-import Footer from "@/app/ui/footer/footer";
 import { Providers } from "@/app/providers";
-import { getServerSession } from "next-auth";
+import { inter } from "@/app/ui/fonts";
+import Footer from "@/app/ui/footer/footer";
+import "@/app/ui/global.css";
+import NavBar from "@/app/ui/navbar/navbar";
 
 export const metadata = {
-  title: "Carbon Footprint Tracker",
+  title: "MDC | Carbon Footprint Tracker",
   description: "RunMDC Carbon Footprint Tracker",
 };
 

@@ -1,21 +1,20 @@
 "use client";
 
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Button,
-  useDisclosure,
   Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
   Spinner,
 } from "@nextui-org/react";
 
-import { Select, SelectItem } from "@nextui-org/react";
-import { selectOptions } from "@/scripts/selectData";
-import { useEffect, useState } from "react";
 import { editEvent } from "@/app/lib/actions";
+import { selectOptions } from "@/scripts/selectData";
+import { Select, SelectItem } from "@nextui-org/react";
+import { useEffect, useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 
 export default function EditEventModal({ isOpen, onOpenChange, eventData }) {

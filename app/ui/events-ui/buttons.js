@@ -1,10 +1,8 @@
-import { Tooltip, Button } from "@nextui-org/react";
-import { FaRegEdit } from "react-icons/fa";
-import { MdOutlineDelete } from "react-icons/md";
+import { Button, Spinner, Tooltip } from "@nextui-org/react";
 import { IoAddCircleOutline } from "react-icons/io5";
-import { Spinner } from "@nextui-org/react";
+import { MdOutlineDelete } from "react-icons/md";
 
-import { deleteEvent, deleteEmission } from "@/app/lib/actions";
+import { deleteEmission, deleteEvent } from "@/app/lib/actions";
 import { useFormStatus } from "react-dom";
 
 export function DeleteEvent(id) {

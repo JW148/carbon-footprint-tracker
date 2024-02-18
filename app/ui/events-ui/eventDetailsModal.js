@@ -1,17 +1,16 @@
 "use client";
 
 import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
   Divider,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
 } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { DeleteEmission } from "./buttons";
-import { useSession } from "next-auth/react";
 
 export default function EventDetailsModal({
   isOpen,
@@ -51,25 +50,44 @@ export default function EventDetailsModal({
                     {/* Display event details here using eventData */}
 
                     <div className="grid grid-cols-3 py-3">
-                      <p>Date: {eventData.date}</p>
-                      <p className="w-auto"></p>
-                      <p>Area: {eventData.area}</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 py-3">
-                      <p>Run: {eventData.run}</p>
+                      <p className="font-medium">
+                        Date:
+                        <p className="font-normal">{eventData.date}</p>
+                      </p>
+                      <p className="font-medium">
+                        Run:
+                        <p className="font-normal">{eventData.run}</p>
+                      </p>
+                      <p className="font-medium">
+                        Area:
+                        <p className="font-normal">{eventData.area}</p>
+                      </p>
                     </div>
 
                     <div className="grid grid-cols-3 py-3">
-                      <p>Near: {eventData.near}</p>
-                      <p>Nearest Postcode: {eventData.nearest_pc}</p>
-                      <p>W3W: {eventData.w3w}</p>
+                      <p className="font-medium">
+                        Near:
+                        <p className="font-normal">{eventData.near}</p>
+                      </p>
+                      <p className="font-medium">
+                        Nearest Postcode:
+                        <p className="font-normal">{eventData.nearest_pc}</p>
+                      </p>
+                      <p className="font-medium">
+                        W3W:<p className="font-normal">{eventData.w3w}</p>
+                      </p>
                     </div>
 
                     <div className="grid grid-cols-3 py-3">
-                      <p>GR: {eventData.gr}</p>
-                      <p>Length: {eventData.length}</p>
-                      <p>Climb: {eventData.climb}</p>
+                      <p className="font-medium">
+                        GR:<p className="font-normal">{eventData.gr}</p>
+                      </p>
+                      <p className="font-medium">
+                        Length:<p className="font-normal">{eventData.length}</p>
+                      </p>
+                      <p className="font-medium">
+                        Climb:<p className="font-normal">{eventData.climb}</p>
+                      </p>
                     </div>
                   </div>
                 )}
@@ -89,7 +107,9 @@ export default function EventDetailsModal({
                             Name: <p className="font-normal">{emission.name}</p>
                           </p>
                           {session.user.id === emission.driver_id && (
-                            <DeleteEmission id={emission.emissionKey} />
+                            <div className="justify-self-end">
+                              <DeleteEmission id={emission.emissionKey} />
+                            </div>
                           )}
                         </div>
                         <Divider />

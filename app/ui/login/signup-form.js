@@ -1,19 +1,18 @@
 "use client";
 
+import { signUp } from "@/app/lib/actions";
 import { inter } from "@/app/ui/fonts";
+import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import {
   AtSymbolIcon,
-  KeyIcon,
   ExclamationCircleIcon,
+  KeyIcon,
 } from "@heroicons/react/24/outline";
-import { CiUser } from "react-icons/ci";
-import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import { Tooltip, Button } from "@nextui-org/react";
-import { useFormState, useFormStatus } from "react-dom";
-import { signUp } from "@/app/lib/actions";
-import { useEffect } from "react";
+import { Button, Spinner } from "@nextui-org/react";
 import { redirect } from "next/navigation";
-import { Spinner } from "@nextui-org/react";
+import { useEffect } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { CiUser } from "react-icons/ci";
 
 export default function SignUpForm() {
   const [state, dispatch] = useFormState(signUp, {
@@ -30,10 +29,8 @@ export default function SignUpForm() {
 
   return (
     <form action={dispatch} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${inter.className} mb-3 text-2xl`}>
-          Please sign up to continue.
-        </h1>
+      <div className="flex-1 rounded-lg bg-gray-100 px-6 pb-4 pt-8">
+        <h1 className={`${inter.className} mb-3 text-2xl`}>Register</h1>
         <div className="w-full">
           <div>
             <label
@@ -137,7 +134,11 @@ function SignUpButton() {
       {pending ? (
         <Spinner />
       ) : (
-        <Button className="mt-4 w-full" aria-disabled={pending} type="submit">
+        <Button
+          className="mt-4 w-full bg-red-700 text-white"
+          aria-disabled={pending}
+          type="submit"
+        >
           Sign up <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
         </Button>
       )}

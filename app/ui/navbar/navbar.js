@@ -1,15 +1,14 @@
 "use client";
 import NavLinks from "@/app/ui/navbar/nav-links";
 
-import Link from "next/link";
-import Image from "next/image";
 import Logo from "@/public/headerLogo.jpg";
+import Image from "next/image";
+import Link from "next/link";
 
-import { PowerIcon } from "@heroicons/react/24/outline";
 import { signOut } from "next-auth/react";
 
-import { useSession } from "next-auth/react";
 import { Tooltip } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
 
 export default function NavBar() {
   const { data: session, status } = useSession();
@@ -44,7 +43,6 @@ export default function NavBar() {
           >
             <Tooltip content={"Signed in as " + session.user.name}>
               <button className="flex grow items-center justify-center gap-2 rounded-md font-bold hoverNav md:flex-none md:justify-start md:p-2 md:px-3">
-                <PowerIcon className="w-6" />
                 <div className="hidden navBar_size md:block">Sign Out</div>
               </button>
             </Tooltip>

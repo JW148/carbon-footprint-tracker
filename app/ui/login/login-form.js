@@ -1,12 +1,15 @@
 "use client";
 
-import { AtSymbolIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
+import {
+  AtSymbolIcon,
+  ExclamationCircleIcon,
+  KeyIcon,
+} from "@heroicons/react/24/outline";
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 export default function LoginForm() {
   //state to handle credential errors
@@ -32,8 +35,8 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={` mb-3 text-2xl`}>Please log in to continue.</h1>
+      <div className="flex-1 rounded-lg bg-gray-200 px-6 pb-4 pt-8">
+        <h1 className="mb-3 text-2xl">Please log in to continue</h1>
         <div className="w-full text-black">
           <div>
             <label
@@ -75,13 +78,16 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <Button className="mt-4 w-full" type="submit">
-          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+        <Button
+          className="mt-4 w-full bg-red-700 text-white mb-2"
+          type="submit"
+        >
+          Log in <ArrowRightIcon className="ml-auto h-5 w-5" />
         </Button>
         <Link
           key="SignUp"
           href="/sign-up"
-          className="p-2 mt-2 max-w-sm mx-auto bg-blue-500 rounded-xl flex items-center space-x-4 text-sm text-white"
+          className="p-2.5 mt-2 max-w-sm mx-auto bg-green-700 rounded-xl flex items-center space-x-4 text-small text-white"
         >
           <p>Sign Up</p>
         </Link>
@@ -92,8 +98,8 @@ export default function LoginForm() {
         >
           {error && (
             <>
-              <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{error}</p>
+              <ExclamationCircleIcon className="h-5 w-5 text-red-700" />
+              <p className="text-sm text-red-700">{error}</p>
             </>
           )}
         </div>

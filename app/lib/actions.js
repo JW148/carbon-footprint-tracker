@@ -1,8 +1,7 @@
 "use server";
 import { sql } from "@vercel/postgres";
-import { z } from "zod"; //for type checking and coercion
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { z } from "zod"; //for type checking and coercion
 
 const CreateSchema = z.object({
   date: z.string().min(1, "Date is required."),
