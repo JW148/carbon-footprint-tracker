@@ -13,8 +13,8 @@ export default async function Page() {
 
   return (
     <section className="flex min-h-screen flex-col items-center justify-between px-24 pt-10">
-      <main className="flex flex-col items-center justify-between px-24 pt-8 pb-4">
-        <article className="w-2/3 px-4 py-8">
+
+        <article className="lg:w-3/4 px-4 pb-12">
           <h1 className="main_header">Events</h1>
           <div className="flex justify-center">
             <p>
@@ -26,10 +26,9 @@ export default async function Page() {
 
         <EventsTable events={events} emissions={emissions} />
 
-        <section className=" px-4 py-8">
+        <section className="px-4 py-8">
           <AddEventModal />
         </section>
-      </main>
     </section>
   );
 }

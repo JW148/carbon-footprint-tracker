@@ -125,7 +125,8 @@ export default function EventsTable({ events, emissions }) {
   };
 
   return (
-    <>
+    <> 
+    <div className="max-lg:w-11/12">
       <Table aria-label="Events table" selectionMode="single">
         <TableHeader columns={columns}>
           {(column) => (
@@ -161,6 +162,7 @@ export default function EventsTable({ events, emissions }) {
         onOpenChange={setIsEmissionModalOpen}
         eventData={selectedEvent}
       />
+    </div>
     </>
   );
 }
