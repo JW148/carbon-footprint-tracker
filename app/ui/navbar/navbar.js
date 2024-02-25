@@ -26,7 +26,7 @@ export default function NavBar() {
         </Link>
       </div>
       <div className="flex-auto text-center m-auto">
-        <Link href="/" className="navBar_size">
+        <Link href="/" className="navBar_size max-lg:hidden">
           MDC Carbon Footprint Tracker
         </Link>
       </div>

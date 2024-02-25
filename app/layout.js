@@ -13,7 +13,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   return (
     <html lang="en" className="light">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased`} style={{ overflowX: 'hidden' }}>
         <Providers>
           <NavBar />
           {children}

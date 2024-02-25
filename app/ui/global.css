@@ -47,7 +47,7 @@
 /* Navbar text css tailwind */
 
 .navBar_size{
-    @apply text-black font-bold text-lg;
+    @apply text-black font-bold lg:text-lg max-lg:text-base;
 }
 
 
